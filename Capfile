@@ -364,9 +364,10 @@ task :peaks_to_iranges, :roles => group_name do
   run "cd #{working_dir} && chmod +x peaksBed2IRanges.R"
 
   macs_dirs = capture "ls #{mount_point}"
-  macs_dirs = macs_dirs.split("\n").select { |d| d =~ /.*macs.*/ }
   macs_dirs = macs_dirs.split("\n")
-  maics_dirs.each{|d|
+  macs_dirs = macs_dirs.select { |d| d =~ /.*macs.*/ }
+  macs_dirs.each{|d|
+    d.chomp
     unless d.match('tgz')
       xlsfiles = capture "ls #{mount_point}/#{d}/*peaks.xls"
       xlsfiles = xlsfiles.split("\n")
@@ -377,6 +378,7 @@ task :peaks_to_iranges, :roles => group_name do
   }
 end
 before 'peaks_to_iranges', 'EC2:start'
+
 
 desc "annotate IRanges"
 task :annotate_peaks, :roles => group_name do
