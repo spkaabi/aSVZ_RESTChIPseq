@@ -7,4 +7,4 @@ data/*
 Capfile.local
 *nohup*
 *.htaccess*
-	
+old_data
